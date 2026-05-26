@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -142,6 +142,10 @@ h1 {
   border: none;
   font-weight: bold;
 }
+.next-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
 
 /* 拖拽连线 */
 .link-wrap {
@@ -215,7 +219,7 @@ svg.link-svg {
   <h2 class="game-title" id="gameTitle">游戏加载中...</h2>
   <div id="qBox" class="question"></div>
   <div id="ansBox" class="answer-box"></div>
-  <button class="btn next-btn" id="nextBtn" style="display:none;"></button>
+  <button class="btn next-btn" id="nextBtn" disabled>下一题</button>
 </div>
 
 <script>
@@ -318,6 +322,9 @@ const scoreEl = document.getElementById("score");
 const progressEl = document.getElementById("progress");
 const tabBtns = document.querySelectorAll(".tab-btn");
 
+// 初始化下一步按钮文案
+nextBtn.innerText = "下一题";
+
 function switchGame(index) {
   currentGameIndex = index;
   q = 0;
@@ -328,6 +335,9 @@ function switchGame(index) {
 function loadGame() {
   curGame = games[currentGameIndex];
   gameTitle.innerText = curGame.category + "挑战";
+  // 重置下一步按钮状态
+  nextBtn.disabled = true;
+  nextBtn.style.display = "block";
   loadQuestion();
 }
 
@@ -336,14 +346,18 @@ function loadQuestion() {
     gameTitle.innerText = "🎉 本分类完成！";
     qBox.innerHTML = `<p>请点击上方按钮选择其他分类继续挑战</p>`;
     ansBox.style.display = "none";
-    nextBtn.style.display = "none";
+    nextBtn.disabled = true;
+    nextBtn.innerText = "已完成";
     updateProgress();
     return;
   }
+  
   curQ = curGame.list[q];
   updateProgress();
   ansBox.style.display = "none";
-  nextBtn.style.display = "none";
+  // 重置下一步按钮
+  nextBtn.disabled = true;
+  nextBtn.innerText = "下一题";
 
   if (curQ.type === "dragline") renderDragLine();
   else if (curQ.type === "poemfill") renderPoemFill();
@@ -464,7 +478,9 @@ function checkDragLine() {
     ansBox.innerHTML = `<strong>❌ 连线错误</strong><br>正确配对：${curQ.exp}`;
   }
   ansBox.style.display = "block";
-  nextBtn.style.display = "block";
+  // 启用下一步按钮
+  nextBtn.disabled = false;
+  updateScore();
   updateProgress();
 }
 
@@ -494,8 +510,10 @@ function renderPoemFill() {
 
 function checkPoemFill() {
   const filled = fillInputs.map(i => i.value.trim());
-  const ok = filled.every((v, i) => v === curQ.ans[i]);
-  if (filled.every(v => v)) {
+  const allFilled = filled.every(v => v);
+  
+  if (allFilled) {
+    const ok = filled.every((v, i) => v === curQ.ans[i]);
     if (ok) {
       score += 10;
       ansBox.className = "answer-box ok";
@@ -505,7 +523,9 @@ function checkPoemFill() {
       ansBox.innerHTML = `<strong>❌ 口诀错误</strong><br>正确：${curQ.exp}`;
     }
     ansBox.style.display = "block";
-    nextBtn.style.display = "block";
+    // 启用下一步按钮
+    nextBtn.disabled = false;
+    updateScore();
     updateProgress();
   }
 }
@@ -513,7 +533,11 @@ function checkPoemFill() {
 // 单选判题
 function selectAnswer(index, btn) {
   const allBtns = qBox.querySelectorAll(".btn");
-  allBtns.forEach(b => b.disabled = true);
+  allBtns.forEach(b => {
+    b.disabled = true;
+    b.style.cursor = "not-allowed";
+  });
+  
   if (index === curQ.ans) {
     btn.classList.add("ok");
     score += 10;
@@ -525,17 +549,31 @@ function selectAnswer(index, btn) {
     ansBox.className = "answer-box err";
     ansBox.innerHTML = `<strong>❌ 答错啦</strong><br>正确答案：${curQ.opts[curQ.ans]}<br>解析：${curQ.exp}`;
   }
+  
   ansBox.style.display = "block";
-  nextBtn.style.display = "block";
+  // 启用下一步按钮
+  nextBtn.disabled = false;
+  updateScore();
   updateProgress();
 }
 
-nextBtn.onclick = () => { q++; loadQuestion(); };
+// 下一步按钮点击事件
+nextBtn.onclick = () => { 
+  q++; 
+  loadQuestion(); 
+};
+
+// 更新进度
 function updateProgress() {
   progressEl.innerText = `${q + 1}/${curGame.list.length}`;
+}
+
+// 单独的分数更新函数
+function updateScore() {
   scoreEl.innerText = score;
 }
 
+// 初始化加载游戏
 loadGame();
 </script>
 
