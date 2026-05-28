@@ -1,0 +1,540 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>镜遇粤彩 · 岭南粤剧典藏</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #6b0f1a;
+            background-image: radial-gradient(circle at 10% 20%, rgba(160,30,45,0.6) 0%, #5a0c15 100%);
+            color: #2c1a1a;
+            scroll-behavior: smooth;
+        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+        .navbar {
+            background: #8b1e2cda;
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 0.8rem 2rem;
+            border-bottom: 2px solid #e9b35f;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem 2rem;
+        }
+        .nav-link {
+            color: #ffefcf;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.4rem 0.2rem;
+            transition: 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover { color: #ffd966; border-bottom-color: #ffcd7e; transform: translateY(-2px); }
+        .main-title {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+            background: linear-gradient(135deg, #a12534, #64131e);
+            margin: 0 0 2rem 0;
+            border-radius: 0 0 48px 48px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+        }
+        .main-title h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            color: #ffecb3;
+            text-shadow: 4px 4px 8px #3a080f;
+            letter-spacing: 2px;
+        }
+        .main-title p { color: #ffdfaa; font-size: 1.2rem; margin-top: 0.5rem; font-style: italic; }
+        .section-card {
+            background: #fffdf7e6;
+            backdrop-filter: blur(2px);
+            border-radius: 48px 24px 48px 24px;
+            margin-bottom: 3.5rem;
+            padding: 2rem 2rem 2.5rem;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.35);
+            transition: transform 0.2s;
+            border: 1px solid #ffcd94;
+        }
+        .section-card:hover { transform: translateY(-5px); }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.3rem;
+            border-left: 12px solid #c43a2b;
+            padding-left: 1.2rem;
+            margin-bottom: 2rem;
+            color: #7f1c24;
+            font-weight: 700;
+        }
+        .sub-section-title {
+            font-size: 1.7rem;
+            margin: 1.8rem 0 1rem;
+            color: #9b2a2f;
+            font-weight: 600;
+            border-bottom: 2px dashed #e2b87a;
+            display: inline-block;
+        }
+        .text-content { line-height: 1.6; color: #2f241b; }
+        
+        /* 轮播图 */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            margin: 1.5rem 0;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+            background: #2d1a12;
+        }
+        .carousel-slides { display: flex; transition: transform 0.4s ease-in-out; }
+        .carousel-slide {
+            flex: 0 0 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #f9ede0;
+            height: 500px;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #f9ede0;
+        }
+        .carousel-caption {
+            padding: 0.8rem;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            font-size: 0.9rem;
+            text-align: center;
+            width: 100%;
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .carousel-btn:hover { background: #c43a2b; }
+        .btn-prev { left: 10px; }
+        .btn-next { right: 10px; }
+        .dots { text-align: center; padding: 12px 0; background: #2d1a12c9; }
+        .dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .dot.active { background-color: #e9b35f; transform: scale(1.2); }
+        
+        .grid-2col {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            align-items: stretch;
+        }
+        @media (max-width: 768px) {
+            .grid-2col { grid-template-columns: 1fr; }
+            .carousel-slide { height: 300px; }
+        }
+        .costume-card, .opera-card, .shot-card {
+            background: #fef6ea;
+            border-radius: 32px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(156,60,50,0.15);
+            border-left: 5px solid #cd5c5c;
+            transition: transform 0.2s;
+        }
+        .costume-card:hover, .opera-card:hover, .shot-card:hover { transform: translateY(-3px); }
+        .costume-card h4, .opera-card h4, .shot-card h4 {
+            color: #b13e3e;
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+        .img-placeholder {
+            background: #f9ede0;
+            border-radius: 24px;
+            padding: 0.5rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        .img-placeholder img {
+            max-width: 100%;
+            height: auto;
+            max-height: 280px;
+            object-fit: contain;
+            border-radius: 20px;
+        }
+        .img-caption {
+            font-size: 0.85rem;
+            color: #b1624b;
+            margin-top: 0.5rem;
+        }
+        .video-demo {
+            margin-top: 1rem;
+            width: 100%;
+            background: #eae2d4;
+            border-radius: 20px;
+            padding: 1rem;
+            text-align: center;
+            min-height: 150px;
+        }
+        .select-video-btn {
+            background: #a4342f;
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+        .select-video-btn:hover { background: #7f2622; }
+        video {
+            width: 100%;
+            border-radius: 16px;
+            outline: none;
+            margin-top: 0.5rem;
+        }
+        .role-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            margin-top: 1rem;
+        }
+        .role-item {
+            flex: 1 1 300px;
+            background: #ffffffdb;
+            border-radius: 32px;
+            padding: 1.2rem;
+        }
+        .role-item strong { font-size: 1.3rem; color: #a22; }
+        .flow-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .flow-card {
+            background: #fef6ea;
+            border-radius: 28px;
+            padding: 1.2rem;
+            flex: 1 1 260px;
+            border-left: 5px solid #cd5c5c;
+        }
+        .flow-card h4 { color: #b13e3e; font-size: 1.4rem; margin-bottom: 0.75rem; }
+        .resource-link {
+            display: inline-block;
+            background: #a4342f;
+            color: white;
+            padding: 0.8rem 1.4rem;
+            border-radius: 60px;
+            text-decoration: none;
+            margin: 0.5rem 0.5rem 0 0;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+        .resource-link i { margin-right: 8px; }
+        .resource-link:hover { background: #7f2622; transform: scale(1.02); }
+        footer { text-align: center; padding: 2rem; color: #ffddb0; border-top: 1px solid #c1624b; margin-top: 1rem; }
+        .inline-icon { margin-right: 6px; color: #c43a2b; }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="nav-container">
+        <a href="#history" class="nav-link"><i class="fas fa-landmark"></i> 粤剧溯源</a>
+        <a href="#roles" class="nav-link"><i class="fas fa-mask"></i> 行当脸谱</a>
+        <a href="#costume" class="nav-link"><i class="fas fa-tshirt"></i> 粤剧服饰</a>
+        <a href="#opera" class="nav-link"><i class="fas fa-theater-masks"></i> 经典曲目</a>
+        <a href="#camera" class="nav-link"><i class="fas fa-video"></i> 运镜技巧</a>
+        <a href="#resources" class="nav-link"><i class="fas fa-globe"></i> 创新资源</a>
+    </div>
+</div>
+
+<div class="main-title">
+    <div class="container">
+        <h1>镜遇粤彩</h1>
+        <p>岭南瑰宝 · 声影留芳</p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- ================= 一、粤剧溯源・历史长河 ================= -->
+    <section id="history" class="section-card">
+        <div class="section-title"><i class="fas fa-history inline-icon"></i> 一、粤剧溯源・历史长河</div>
+        <div class="text-content">
+            <p>粤剧，是根植岭南、贯通古今、享誉海内外的中国地方戏曲瑰宝，更是岭南文化最具代表性的艺术符号。它以粤语为载体，融唱、念、做、打于一体，声腔婉转悠扬，表演细腻传神，舞台服饰华美精致，承载着岭南人的历史记忆、审美情趣与文化精神，流传于广东、广西、香港、澳门及全球华人社群，是连接海内外华人文化认同的重要纽带。</p>
+        </div>
+        <div class="carousel-container">
+            <div class="carousel-slides" id="carouselSlides"></div>
+            <button class="carousel-btn btn-prev" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+            <button class="carousel-btn btn-next" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+            <div class="dots" id="dotsContainer"></div>
+        </div>
+        <div class="text-content">
+            <h3 class="sub-section-title">（一）起源与发展：千年积淀，百年成型</h3>
+            <p>粤剧的历史源远流长，其发展脉络可概括为<strong>萌芽 --- 融合 --- 成熟 --- 繁荣 --- 创新</strong>五个阶段。</p>
+            <p><strong>1. 萌芽期（唐宋至明初）</strong>：岭南自古歌舞兴盛，唐宋时期，中原戏曲文化随移民南迁，流入粤地，与本地<strong>山歌、南音、木鱼歌、粤曲小调</strong>相互交融，形成早期民间戏曲雏形，为粤剧诞生奠定声腔与表演基础。</p>
+            <p><strong>2. 形成期（明中叶至清代中期）</strong>：明嘉靖、万历年间，<strong>昆腔、弋阳腔、梆子腔、二黄腔</strong>等外来声腔相继传入广东，被本地艺人吸收、改造，逐步 "粤化"。艺人们改用<strong>粤语演唱</strong>，融入岭南民间说唱与民俗表演，形成 "<strong>广腔班</strong>"，标志粤剧正式成型。清代康乾盛世，粤剧班社林立，演出频繁，在岭南城乡广泛传播。</p>
+            <p><strong>3. 成熟期（清末民初）</strong>：清末民初，粤剧迎来<strong>黄金发展期</strong>。广州、佛山、香港、澳门成为粤剧中心，班社数量激增，名家辈出，表演体系日趋完善，<strong>文武戏并行、行当齐全、唱腔丰富、服饰精美</strong>，粤剧成为岭南第一大剧种，并开始向海外传播，深受华侨喜爱。</p>
+            <p><strong>4. 繁荣期（民国至建国初期）</strong>：民国时期，粤剧革新风起云涌，<strong>薛觉先、马师曾、红线女、芳艳芬</strong>等大师推动粤剧现代化改革，题材贴近时代，唱腔不断创新，舞台艺术精益求精，粤剧影响力达到顶峰，成为<strong>华南地区最具号召力的戏曲剧种</strong>。</p>
+            <p><strong>5. 创新期（当代至今）</strong>：新中国成立后，粤剧得到保护与扶持，整理传统剧目、创作现代戏、培养青年人才。改革开放后，粤剧积极拥抱时代，<strong>融合现代舞台技术、跨界流行文化、探索数字传播</strong>，不断焕发新活力，成为<strong>传统戏曲现代化传承的典范</strong>。</p>
+            <h3 class="sub-section-title">（二）岭南文化背景：一方水土，一方戏曲</h3>
+            <p>粤剧是<strong>岭南文化的活态载体</strong>，从语言、声腔、题材到审美，都深深烙印着岭南地域特色。</p>
+            <p><strong>1. 语言根基：粤语的独特魅力</strong>：粤剧以粤语（广府话）为唱念语言，粤语保留大量古汉语词汇与音韵，声调丰富、发音圆润、抑扬顿挫，赋予粤剧唱腔婉转悠扬、清丽动听的独特韵味，使其区别于其他剧种，极具辨识度。</p>
+            <p><strong>2. 文化气质：务实开放，重情重义</strong>：岭南地处沿海，自古<strong>开放包容、务实进取、敢为人先</strong>，这种精神深刻融入粤剧：题材贴近生活：多取材<strong>岭南历史事件、民间传说、市井百态、侠义故事</strong>，如《三打白骨精》《六国大封相》《帝女花》，充满烟火气与岭南风情；风格兼容并蓄：既保留传统戏曲的典雅，又吸收民间艺术的活泼，文武兼备、雅俗共赏；情感真挚浓烈：重情义、讲忠孝、颂侠义，传递岭南人<strong>重情重义、爱国爱乡</strong>的价值观。</p>
+            <p><strong>3. 民俗基因：扎根民间，融入生活</strong>：粤剧与岭南民俗深度绑定：节庆庙会、婚丧嫁娶、祭祀祈福，常有粤剧演出，是岭南民众精神生活的重要组成。粤剧舞台上的服饰、脸谱、道具，也多取材岭南传统工艺（如广绣、潮绣、木雕、剪纸），是岭南民间艺术的集中展示。</p>
+            <h3 class="sub-section-title">（三）非遗地位：世界级瑰宝，文化传承使命</h3>
+            <p>粤剧不仅是艺术，更是<strong>中华民族的文化财富</strong>，其价值得到国家与国际社会高度认可。</p>
+            <p><strong>1. 国家级非遗（2006 年）</strong>：2006 年 5 月 20 日，粤剧经国务院批准，列入<strong>第一批国家级非物质文化遗产名录</strong>，编号 Ⅳ-36，正式成为<strong>国家重点保护的传统戏曲剧种</strong>，开启系统性保护传承之路。</p>
+            <p><strong>2. 世界级非遗（2009 年）</strong>：2009 年 9 月 30 日，在阿联酋阿布扎比召开的联合国教科文组织保护非物质文化遗产政府间委员会第四次会议上，<strong>粤剧成功入选《人类非物质文化遗产代表作名录》</strong>，成为<strong>世界级文化瑰宝</strong>，获得国际社会认可，肩负起<strong>向世界展示中华戏曲魅力、传承中华优秀传统文化</strong>的重要使命。</p>
+            <p><strong>3. 文化价值与使命</strong>：作为世界级非遗，粤剧的价值远超艺术本身：<strong>传承中华文脉</strong>：承载千年戏曲艺术精华，延续中华审美传统；<strong>凝聚民族认同</strong>：是海内外华人共同的文化记忆，增强文化归属感；<strong>展现岭南风采</strong>：向世界传递岭南文化开放包容、务实创新的精神；<strong>滋养时代文化</strong>：为当代文艺创作提供灵感，推动传统文化创造性转化、创新性发展。</p>
+            <h3 class="sub-section-title">（四）经典流派（唱腔特色）：流派纷呈，各领风骚</h3>
+            <p>粤剧艺术的繁荣，离不开<strong>众多唱腔流派的创立与发展</strong>。不同流派风格迥异、特色鲜明，共同构建粤剧唱腔艺术的丰富体系，也为表演、服饰、舞台风格奠定文化基础。</p>
+            <div class="flow-list">
+                <div class="flow-card"><h4>1. 红腔（红线女）—— 婉转甜美，情感至深</h4><p><strong>创始人：红线女（1927-2013）</strong>，粤剧一代宗师，被誉为 "<strong>南国红豆</strong>"。唱腔特点：<strong>高亢清亮、婉转甜美、圆润细腻、情感饱满</strong>，真假声结合自然，行腔流畅灵动，高音通透、低音醇厚，极具感染力；艺术成就：革新粤剧旦角唱腔，融合西洋发声与民族唱法，塑造众多经典角色（如《昭君出塞》王昭君、《荔枝颂》），推动粤剧走向世界，影响深远。</p></div>
+                <div class="flow-card"><h4>2. 芳腔（芳艳芬）—— 温婉含蓄，韵味醇厚</h4><p><strong>创始人：芳艳芬（1922- ）</strong>，粤剧 "花旦王"，与红线女齐名。唱腔特点：<strong>温婉含蓄、韵味醇厚、细腻绵长、柔美动人</strong>，行腔舒缓婉转，咬字清晰，情感内敛深沉，擅长演绎悲情、抒情戏路；艺术成就：创立独特旦角唱腔，表演端庄典雅，塑造《帝女花》长平公主、《紫钗记》霍小玉等经典形象，影响一代粤剧艺人。</p></div>
+                <div class="flow-card"><h4>3. 薛腔（薛觉先）—— 刚柔并济，文武兼备</h4><p><strong>创始人：薛觉先（1904-1956）</strong>，粤剧 "万能老倌"，粤剧改革先驱。唱腔特点：<strong>刚柔并济、大气沉稳、雄浑嘹亮、舒展流畅</strong>，文武兼备，文戏儒雅、武戏刚劲，唱腔兼具阳刚与柔美，适配生角各类角色；艺术成就：全面革新粤剧表演、唱腔、舞台、服饰，融合京剧、昆曲、电影艺术，奠定<strong>粤剧现代表演体系</strong>，推动粤剧现代化转型，影响深远。</p></div>
+                <div class="flow-card"><h4>4. 马腔（马师曾）—— 幽默洒脱，贴近生活</h4><p><strong>创始人：马师曾（1900-1964）</strong>，粤剧 "丑生王"，表演大师。唱腔特点：<strong>幽默洒脱、节奏明快、活泼诙谐、贴近市井</strong>，咬字清晰、行腔灵动，善用口语化唱腔，表演自然生动，极具亲和力；艺术成就：独创 "乞儿喉" 唱腔，擅长塑造<strong>市井小人物、侠义英雄、诙谐丑角</strong>，代表作《苦凤莺怜》《搜书院》，推动粤剧贴近大众、贴近生活。</p></div>
+            </div>
+            <p>除四大流派外，粤剧还有 <strong>白腔（白驹荣）、新马腔（新马师曾）、罗腔（罗家宝）</strong> 等经典流派，各具特色，共同丰富粤剧艺术宝库，为粤剧表演、服饰、舞台风格提供深厚文化根源与艺术支撑。</p>
+        </div>
+    </section>
+
+    <!-- ================= 二、行当脸谱・角色密码 ================= -->
+    <section id="roles" class="section-card">
+        <div class="section-title"><i class="fas fa-user-tag inline-icon"></i> 二、行当脸谱・角色密码</div>
+        <div class="text-content"><p>粤剧行当是区分角色身份、性格、年龄、文武的核心体系，也是理解服饰、妆容、表演的关键。粤剧原有末、生、旦、净、丑、外、小夫、贴、杂等十大行当，后精简为文武生、小生、正印花旦、二帮花旦、丑生、武生六大类。</p></div>
+        <div class="role-grid">
+            <div class="role-item"><strong>1. 文武生</strong><br>角色定位：粤剧生行中最核心、最全面的行当，兼顾文戏唱功与武戏开打，多扮演英俊潇洒、智勇双全、能文能武的正面青年男性，如将军、状元、侠客、忠良之后，是舞台上的 "主角担当"。妆容特点：面容俊朗清朗，不画夸张脸谱，眉眼修长有神，粉底白净自然，强调英气与正气；不挂胡须，造型挺拔利落。表演风格：文能唱、念、抒情，儒雅端庄；武能翻、打、跌、扑，英武矫健。刚柔并济，气度不凡，是最能体现粤剧 "文武兼备" 特色的行当。经典形象：《帝女花》周世显、《紫钗记》李益、《凤阁恩仇未了情》凤凰座。<div class="img-placeholder"><img id="img9" alt="文武生"><div class="img-caption">文武生 · 英姿飒爽</div></div></div>
+            <div class="role-item"><strong>2. 小生</strong><br>角色定位：以文戏为主的青年男性行当，气质斯文、温柔儒雅，多扮演书生、公子、文人雅士、痴情才子，重唱功与抒情，不擅武打。妆容特点：妆容清雅秀气，眉眼柔和，面色白净，气质温文尔雅，突出书卷气，无夸张色彩与纹饰。表演风格:唱腔婉转柔和，动作斯文轻盈，举止温文有礼，侧重情感表达与内心戏，尽显文人风度。经典形象：《牡丹亭》柳梦梅、《玉簪记》潘必正、《西厢记》张生。<div class="img-placeholder"><img id="img10" alt="小生"><div class="img-caption">小生 · 儒雅书卷</div></div></div>
+            <div class="role-item"><strong>3. 正印花旦</strong><br>角色定位：粤剧旦行第一女主角，地位最高，多扮演端庄高贵、气质优雅、唱功精湛的核心女性角色，如皇后、公主、大家闺秀、贞烈女子，是舞台 "灵魂担当"。妆容特点：妆容精致华美，贴片子、梳大头，头饰华丽（珠冠、凤钗、步摇），服饰典雅大气，色彩庄重，突出高贵气质。表演风格：唱功深厚，行腔婉转，仪态端庄大方，动作柔美稳重，情感细腻深沉，擅长演绎悲剧、正剧。经典形象：《帝女花》长平公主、《紫钗记》霍小玉、《昭君出塞》王昭君。<div class="img-placeholder"><img id="img11" alt="正印花旦"><div class="img-caption">正印花旦 · 雍容华贵</div></div></div>
+            <div class="role-item"><strong>4. 二帮花旦</strong><br>角色定位：旦行中的女配角，地位次于正印花旦，角色类型丰富，多扮演丫鬟、侍女、妹妹、侠女、活泼少女，戏份灵活，风格多变。妆容特点：妆容清新俏丽，头饰轻巧简洁（珠花、小簪、彩饰），服饰色彩明快，造型灵动，不抢主角风头但辨识度高。表演风格：活泼灵动、轻快自然，可温婉、可俏皮、可英气，侧重衬托主角，也常承担轻快戏份与互动表演。经典形象：《西厢记》红娘、《卖水》梅英、《牡丹亭》春香。<div class="img-placeholder"><img id="img12" alt="二帮花旦"><div class="img-caption">二帮花旦 · 灵动俏丽</div></div></div>
+            <div class="role-item"><strong>5. 丑生</strong><br>角色定位：粤剧丑行核心，以幽默诙谐、滑稽搞笑为主，多扮演市井小人物、媒婆、店家、贪官、弄臣等，负责调节气氛、制造笑点，是舞台 "欢乐担当"。妆容特点：最标志性特征是鼻梁处画白色 "豆腐块"，眉眼夸张弯曲，表情灵动滑稽，妆容突出喜剧效果，区别于其他行当。表演风格：动作夸张、语言风趣、节奏明快，擅用口白、身段、表情制造喜剧效果，贴近生活，接地气。经典形象：《搜书院》谢宝、《苦凤莺怜》余侠魂、《拾玉镯》刘媒婆。<div class="img-placeholder"><img id="img13" alt="丑生"><div class="img-caption">丑生 · 诙谐幽默</div></div></div>
+            <div class="role-item"><strong>6. 武生</strong><br>角色定位：专门负责武戏、开打、功夫表演的男性行当，扮演武将、侠客、英雄、猛将等，身手矫健、气势威猛，是舞台 "武力担当"。妆容特点;妆容英武锐利，眉眼上扬有神，面色刚毅，常配盔头、雉鸡翎、靠旗，造型威风凛凛。表演风格：以翻、扑、跌、打、刀枪把子功见长，动作刚劲有力、气势磅礴，唱功为辅，武打为主，展现力量与技巧。经典形象：《穆桂英挂帅》杨宗保、《赵子龙》赵云、《三英战吕布》吕布。<div class="img-placeholder"><img id="img14" alt="武生"><div class="img-caption">武生 · 威风凛凛</div></div></div>
+        </div>
+    </section>
+
+    <!-- ================= 三、粤剧服饰・纹样解码 ================= -->
+    <section id="costume" class="section-card">
+        <div class="section-title"><i class="fas fa-tshirt inline-icon"></i> 三、粤剧服饰・纹样解码</div>
+        <p>粤剧服饰是岭南工艺与戏曲美学的结晶，也是角色身份、性格、地位的 "视觉语言"。不同行当穿不同服饰，颜色、纹样、刺绣都有严格规制。本部分专为学生编写，清晰易懂、对应六大行当，一看就懂、一学就会。</p>
+        <p>粤剧服饰统称为 "行头"，以广绣、潮绣为核心工艺，色彩华丽、纹样吉祥、造型规整。服饰直接对应角色：看衣服 → 知身份；看颜色 → 知性格；看纹样 → 知地位；看款式 → 知行当。</p>
+        <div class="grid-2col">
+            <div class="costume-card"><h4>1. 文武生 → 靠蟒</h4><p>对应角色：文武双全的主角男性（状元、将军、忠臣、少主）。服饰名称：蟒袍、硬蟒、软蟒、靠。款式特点：袍身宽大、线条挺拔，尽显大气稳重；圆领、大襟、长及脚踝，配水袖；整体华贵庄严，适合主角登场。经典纹样：龙纹、云纹、牡丹、海水江崖。核心记忆：文武生穿蟒袍，华贵正气，主角气场一眼认出。<div class="img-placeholder"><img id="img15" alt="靠蟒"><div class="img-caption">文武生 · 蟒袍</div></div></div>
+            <div class="costume-card"><h4>2. 小生 → 褶巾长</h4><p>对应角色：文弱书生、公子、才子、文人。服饰名称：褶子、文帔、小生巾。款式特点：长衫素雅、剪裁简洁；袖长飘逸，动作轻柔斯文；配文生巾、小帽，书卷气十足。经典纹样：兰草、梅花、暗纹。核心记忆：小生穿褶子，长衫飘逸，一身书卷气。<div class="img-placeholder"><img id="img16" alt="褶巾长"><div class="img-caption">小生 · 褶子</div></div></div>
+            <div class="costume-card"><h4>3. 正印花旦 → 女蟒亮</h4><p>对应角色：皇后、公主、贵妃、名门闺秀（第一女主角）。服饰名称：女蟒、大帔、宫装、凤冠。款式特点：长裙大袖、华丽耀眼；刺绣繁复、珠光宝气；配大头、凤冠、珠钗，气场高贵。经典纹样：凤凰、牡丹、祥云、鸳鸯。核心记忆：正花旦穿女蟒，华丽闪亮，舞台最耀眼的主角。<div class="img-placeholder"><img id="img17" alt="女蟒亮"><div class="img-caption">正印花旦 · 女蟒</div></div></div>
+            <div class="costume-card"><h4>4. 二帮花旦 → 衫裙香</h4><p>对应角色：丫鬟、侍女、少女、侠女、配角女性。服饰名称：短袄、裙、小帔、花衫。款式特点：上衣短、下裙长，行动轻便灵动；色彩明亮、清新，不抢主角；头饰小巧（珠花、小簪），活泼可爱。经典纹样：小花、蝴蝶、兰草、小折枝、小祥云。核心记忆：二帮旦穿衫裙，清新俏丽，灵动又乖巧。<div class="img-placeholder"><img id="img18" alt="衫裙香"><div class="img-caption">二帮花旦 · 衫裙</div></div></div>
+            <div class="costume-card"><h4>5. 丑生 → 短袖敞</h4><p>对应角色：滑稽角色、店家、仆人、贪官、媒婆、市井小人物。服饰名称：短打、斜襟衫、丑角衣、小帽。款式特点：衣短、袖短、宽松舒适，方便做滑稽动作；衣襟可敞开，造型随意、接地气；色彩花哨或朴素，突出喜剧感。经典纹样：简单小花、格子、条纹，不绣龙凤，突出市井气息。核心记忆：丑生穿短袖敞衫，滑稽接地气，一看就想笑。<div class="img-placeholder"><img id="img24" alt="丑生服饰"><div class="img-caption">丑生 · 短袖敞示例</div></div></div>
+            <div class="costume-card"><h4>6. 武生 → 大靠</h4><p>对应角色：武将、将军、侠客、先锋、猛将。服饰名称：大靠、硬靠、靠旗、战袄。款式特点：全身铠甲式造型，威武霸气；背插四面靠旗，气势冲天；配战靴、盔头、雉鸡翎，英气逼人。经典纹样：虎纹、龙纹、铠甲纹、云纹。核心记忆：武生穿大靠，背插靠旗，威风凛凛气场强！<div class="img-placeholder"><img id="img19" alt="大靠"><div class="img-caption">武生 · 大靠</div></div></div>
+        </div>
+    </section>
+
+    <!-- ================= 四、经典曲目・故事舞台 ================= -->
+    <section id="opera" class="section-card">
+        <div class="section-title"><i class="fas fa-theater-masks inline-icon"></i> 四、经典曲目・故事舞台</div>
+        <p>粤剧的经典曲目，是岭南文化最动人的故事宝库，也是服饰、唱腔、表演、舞美的集中展示舞台。每一部经典都有鲜明的人物、精美的造型、感人的情节，既能让学生读懂剧情，也能为拍摄、表演、创作提供灵感。</p>
+        <div class="grid-2col">
+            <div class="opera-card"><h4>1. 《帝女花》</h4><p>地位：粤剧 "第一悲剧"，最具代表性的传世经典。故事梗概：讲述明朝末年，长平公主与驸马周世显在国破家亡之际，坚守忠贞、以身殉国的凄美爱情故事。全剧悲壮大气、情感浓烈，是粤剧舞台上最催人泪下的作品。经典场面：《香夭》—— 两人在花烛之夜含泪饮毒酒，生死相随，唱腔婉转悲切，服饰红白对比强烈，极具视觉冲击力。<div class="img-placeholder"><img id="img20" alt="帝女花"><div class="img-caption">帝女花·香夭</div></div></div>
+            <div class="opera-card"><h4>2. 《紫钗记》</h4><p>地位：粤剧才子佳人戏巅峰之作，浪漫唯美代表。故事梗概：唐代才子李益与霍小玉以一支紫钗定情，历经权贵阻挠、误会分离，最终坚守真情、破镜重圆。故事浪漫细腻、唱词典雅，被誉为 "粤剧版罗密欧与朱丽叶"。经典场面：《灯街拾翠》《阳关折柳》，服饰清新淡雅，舞台诗意唯美。<div class="img-placeholder"><img id="img21" alt="紫钗记"><div class="img-caption">紫钗记·定情</div></div></div>
+            <div class="opera-card"><h4>3. 《牡丹亭》</h4><p>地位：昆曲经典粤剧化改编，唯美梦幻代表作。故事梗概：大家闺秀杜丽娘在梦中与书生柳梦梅相遇相爱，因思念而逝，又为爱还魂，最终冲破生死、礼教，与爱人相守。故事浪漫奇幻、意境极美。经典场面：《惊梦》《寻梦》，服饰柔美飘逸，舞台如梦似幻。<div class="img-placeholder"><img id="img22" alt="牡丹亭"><div class="img-caption">牡丹亭·惊梦</div></div></div>
+            <div class="opera-card"><h4>4. 《穆桂英挂帅》</h4><p>地位：粤剧武打戏经典，巾帼英雄代表剧目。故事梗概：北宋外敌入侵，佘太君举荐穆桂英挂帅出征。穆桂英武艺高强、智勇双全，带领杨家将大破敌军，保家卫国。经典场面：《挂帅》《破阵》，武打精彩利落，大靠造型气势磅礴。<div class="img-placeholder"><img id="img23" alt="穆桂英挂帅"><div class="img-caption">穆桂英·挂帅</div></div></div>
+        </div>
+    </section>
+
+    <!-- ================= 五、运镜技巧・拍摄课堂 ================= -->
+    <section id="camera" class="section-card">
+        <div class="section-title"><i class="fas fa-camera-retro inline-icon"></i> 五、运镜技巧・拍摄课堂</div>
+        <p>本部分专为粤剧角色拍摄、服饰展示、剧目短片设计，用最简单的语言讲清推、拉、摇、移、跟五种基础运镜，包含动作要领 + 分镜模板 + 易错提示，学生一看就懂、拿起手机就能拍。</p>
+        <div class="grid-2col">
+            <div class="shot-card"><h4>（一）推镜头（Push in）</h4><p>动作要领：镜头从远到近，慢慢靠近被摄主体；手机/相机保持稳定，速度慢、匀、稳；重点突出角色面部、妆容、头饰、服饰细节。分镜模板（粤剧拍摄专用）：远景：角色全身亮相 → 推至中景：展示身段与服饰整体 → 推至近景：突出面部表情与头饰 → 推至特写：刺绣纹样、珠花、靠旗细节。易错提示：速度太快，画面晃动；推过头，主体跑出画面；手不稳，画面上下抖动。</p><div class="video-demo" id="video1Container"><button class="select-video-btn" data-video="1">📁 点击选择视频1（推镜头示例）</button><div id="video1Player"></div></div></div>
+            <div class="shot-card"><h4>（二）拉镜头（Pull back）</h4><p>动作要领：镜头从近到远，慢慢远离主体；从细节拉开到环境，交代场景；适合结尾、亮相、展示整体造型。分镜模板（粤剧拍摄专用）：特写：服饰纹样/脸谱局部 → 拉至近景：角色上半身 → 拉至中景：角色身段 → 拉至全景：人物+舞台背景，完整亮相。易错提示：越拉越快，节奏不稳；画面跑偏，人物不在中心；背景杂乱，影响观感。</p><div class="video-demo" id="video2Container"><button class="select-video-btn" data-video="2">📁 点击选择视频2（拉镜头示例）</button><div id="video2Player"></div></div></div>
+            <div class="shot-card"><h4>（三）摇镜头（Pan）</h4><p>动作要领：机身固定不动，只转动镜头方向；水平左右摇，展示角色全身、服饰长度、舞台布景；像 "人转头看东西" 一样平稳。分镜模板（粤剧拍摄专用）：左起：角色脚部/服饰下摆 → 缓慢右摇：经过身段、水袖、服饰 → 停在：面部表情/头饰。易错提示：摇得太快，观众看不清；上下抖动，不是水平摇；停不住，摇过目标主体。</p><div class="video-demo" id="video3Container"><button class="select-video-btn" data-video="3">📁 点击选择视频3（摇镜头示例）</button><div id="video3Player"></div></div></div>
+            <div class="shot-card"><h4>（四）移镜头（Move）</h4><p>动作要领：手机/相机整体平行移动（左右横移），贴近角色缓慢移动，展示服饰侧面、刺绣、立体感，适合拍华丽戏服的高级感。分镜模板（粤剧拍摄专用）：左侧入镜：角色侧面 → 平行右移：缓缓扫过服装纹样 → 停在正面：角色端庄亮相。易错提示：边走边拍，晃动严重；距离忽远忽近；移太快，服饰细节看不清。</p><div class="video-demo" id="video4Container"><button class="select-video-btn" data-video="4">📁 点击选择视频4（移镜头示例）</button><div id="video4Player"></div></div></div>
+            <div class="shot-card"><h4>（五）跟镜头（Follow）</h4><p>动作要领：镜头跟着角色动作一起移动；角色走→镜头走；角色转→镜头转；保持角色始终在画面中心。分镜模板（粤剧拍摄专用）：角色起步、台步、转身 → 镜头紧随，保持中景 → 跟至亮相位置，定格收尾。易错提示：跟不上，人物出画；跟太近，画面拥挤；脚步重，画面抖动明显。</p><div class="video-demo" id="video5Container"><button class="select-video-btn" data-video="5">📁 点击选择视频5（跟镜头示例）</button><div id="video5Player"></div></div></div>
+        </div>
+        <div class="text-content" style="margin-top:1.5rem; background:#fae7d8; padding:1rem; border-radius:28px;">
+            <p><strong>粤剧拍摄 3 条黄金规则：</strong> 慢一点：运镜越慢，越像专业大片；稳一点：双手握机/靠身体，减少抖动；准一点：开始与结束都要 "停稳"。</p>
+        </div>
+    </section>
+
+    <!-- ================= 六、粤剧创新资源平台 ================= -->
+    <section id="resources" class="section-card">
+        <div class="section-title"><i class="fas fa-link inline-icon"></i> 六、粤剧创新资源平台</div>
+        <p>以下平台均为<strong>官方正规、免费开放、可直接打开</strong>的粤剧学习网站，学生点击即可在线学习、看剧目、查资料。</p>
+        <div style="margin: 1.5rem 0;">
+            <a class="resource-link" href="http://www.yuejuopera.cn/" target="_blank"><i class="fas fa-globe"></i> 粤剧网（权威综合平台）</a>
+            <a class="resource-link" href="https://coursehome.zhihuishu.com/courseHome/1000073995" target="_blank"><i class="fas fa-graduation-cap"></i> 智慧树《粤剧欣赏》（免费通识课）</a>
+            <a class="resource-link" href="https://www.gdlll.cn/courseDetails/2ea05a19-e766-1171-ba97-3a9b44da9c60" target="_blank"><i class="fas fa-play-circle"></i> 广东全民终身学习平台（精品粤剧库）</a>
+        </div>
+    </section>
+    <footer>
+        <i class="fas fa-dragon"></i> 镜遇粤彩 · 传承岭南雅韵  <i class="fas fa-feather-alt"></i> 致敬粤剧非遗之美
+    </footer>
+</div>
+
+<script>
+    // 图片智能加载函数（自动尝试多种扩展名及无扩展名）
+    function setImageWithFallback(imgElement, basePath) {
+        const extensions = ['.jpeg', '.jpg', '.png', ''];
+        let index = 0;
+        function tryNext() {
+            if (index >= extensions.length) {
+                imgElement.alt = '图片缺失';
+                imgElement.style.backgroundColor = '#e0c8b0';
+                imgElement.style.minHeight = '150px';
+                imgElement.style.objectFit = 'contain';
+                imgElement.src = '';
+                const placeholder = document.createElement('span');
+                placeholder.innerText = '📷 图片暂缺';
+                placeholder.style.display = 'inline-block';
+                placeholder.style.padding = '2rem';
+                placeholder.style.color = '#8b5a3e';
+                placeholder.style.fontSize = '0.9rem';
+                imgElement.parentElement?.appendChild(placeholder);
+                imgElement.style.display = 'none';
+                return;
+            }
+            const ext = extensions[index];
+            const url = basePath + ext;
+            imgElement.src = url;
+            index++;
+        }
+        imgElement.onerror = function() {
+            tryNext();
+        };
+        tryNext();
+    }
+
+    // 轮播图
+    const carouselImages = ["image1","image2","image3","image4","image5","image6","image7","image8"];
+    (function() {
+        const slides = document.getElementById('carouselSlides');
+        const prev = document.getElementById('prevBtn');
+        const next = document.getElementById('nextBtn');
+        const dotsDiv = document.getElementById('dotsContainer');
+        let cur = 0, total = 0, timer = null;
+        function build() {
+            slides.innerHTML = '';
+            for (let i = 0; i < carouselImages.length; i++) {
+                const slide = document.createElement('div');
+                slide.className = 'carousel-slide';
+                const img = document.createElement('img');
+                setImageWithFallback(img, `media/${carouselImages[i]}`);
+                img.alt = `粤剧历史图${i+1}`;
+                slide.appendChild(img);
+                const cap = document.createElement('div');
+                cap.className = 'carousel-caption';
+                cap.innerText = `粤剧风华 · 图${i+1}`;
+                slide.appendChild(cap);
+                slides.appendChild(slide);
+            }
+            total = carouselImages.length;
+            if (total === 0) return;
+            dotsDiv.innerHTML = '';
+            for (let i = 0; i < total; i++) {
+                const d = document.createElement('span');
+                d.className = 'dot';
+                d.dataset.index = i;
+                d.addEventListener('click', () => goTo(i));
+                dotsDiv.appendChild(d);
+            }
+            update();
+            startAuto();
+        }
+        function update() {
+            slides.style.transform = `translateX(-${cur * 100}%)`;
+            document.querySelectorAll('.dot').forEach((d, i) => {
+                if (i === cur) d.classList.add('active');
+                else d.classList.remove('active');
+            });
+        }
+        function goTo(idx) { cur = (idx + total) % total; update(); resetAuto(); }
+        function nextSlide() { goTo(cur + 1); }
+        function prevSlide() { goTo(cur - 1); }
+        function startAuto() { if (timer) clearInterval(timer); timer = setInterval(() => nextSlide(), 5000); }
+        function resetAuto() { if (timer) clearInterval(timer); startAuto(); }
+        prev.addEventListener('click', prevSlide);
+        next.addEventListener('click', nextSlide);
+        const cont = document.querySelector('.carousel-container');
+        cont.addEventListener('mouseenter', () => { if (timer) clearInterval(timer); });
+        cont.addEventListener('mouseleave', startAuto);
+        window.addEventListener('resize', update);
+        build();
+    })();
+
+    // 加载所有行当、服饰、曲目图片（img9 到 img24）
+    document.addEventListener('DOMContentLoaded', function() {
+        for (let i = 9; i <= 24; i++) {
+            const img = document.getElementById(`img${i}`);
+            if (img) setImageWithFallback(img, `media/image${i}`);
+        }
+    });
+
+    // 视频手动选择功能
+    function setupVideoSelector(btnSelector, playerId) {
+        const btn = document.querySelector(btnSelector);
+        const playerDiv = document.getElementById(playerId);
+        if (!btn || !playerDiv) return;
+        btn.addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'video/*';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const url = URL.createObjectURL(file);
+                    const video = document.createElement('video');
+                    video.controls = true;
+                    video.style.width = '100%';
+                    video.style.borderRadius = '16px';
+                    const source = document.createElement('source');
+                    source.src = url;
+                    source.type = file.type;
+                    video.appendChild(source);
+                    playerDiv.innerHTML = '';
+                    playerDiv.appendChild(video);
+                    video.play();
+                }
+            };
+            input.click();
+        });
+    }
+    setupVideoSelector('[data-video="1"]', 'video1Player');
+    setupVideoSelector('[data-video="2"]', 'video2Player');
+    setupVideoSelector('[data-video="3"]', 'video3Player');
+    setupVideoSelector('[data-video="4"]', 'video4Player');
+    setupVideoSelector('[data-video="5"]', 'video5Player');
+</script>
+</body>
+</html>
